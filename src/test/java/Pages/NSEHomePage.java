@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeSuite;
@@ -18,15 +19,18 @@ public class NSEHomePage {
 	Actions action;
 	WebDriverWait wait;
 
-	By searchBox = By.xpath("//input[contains(@class,'rbt-input-main')]");
+	
 	@FindBy(xpath="//div[@class='autocompleteList']")
 	WebElement searchResult;
+	@FindBy(xpath="//input[contains(@class,'rbt-input-main')]")
+	WebElement searchBox;
 
 	public NSEHomePage() {
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		action = new Actions(driver);
 		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		PageFactory.initElements(driver, this);
 	}
 
 	public void driverInitialization() {
@@ -35,7 +39,7 @@ public class NSEHomePage {
 
 	public void enterSearch(String text) {
 		wait.until(ExpectedConditions.elementToBeClickable(searchBox));
-		driver.findElement(searchBox).sendKeys(text);
+		searchBox.sendKeys(text);
 	}
 
 	public void clickEnter() {
